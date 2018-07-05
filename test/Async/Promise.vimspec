@@ -709,7 +709,7 @@ Describe Async.Promise
     End
   End
 
-  Describe is_promise()
+  Describe .is_promise()
     It should return a given value is Promise instance or not
       Assert True(P.is_promise(P.resolve(42)))
       Assert False(P.is_promise({}))
@@ -718,7 +718,7 @@ Describe Async.Promise
     End
   End
 
-  Describe wait()
+  Describe .wait()
     It waits until a given promise has resolved and returns a result
       let p = P.resolve(Wait(30).then({ -> 'resolved' }))
       let s = reltime()
