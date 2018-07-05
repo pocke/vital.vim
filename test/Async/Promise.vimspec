@@ -720,7 +720,7 @@ Describe Async.Promise
 
   Describe .wait()
     It waits until a given promise has resolved and returns a result
-      let p = P.resolve(Wait(30).then({ -> 'resolved' }))
+      let p = Wait(30).then({ -> 'resolved' })
       let s = reltime()
       Assert Equals(p._state, PENDING)
       Assert Equals(P.wait(p), 'resolved')
@@ -729,22 +729,22 @@ Describe Async.Promise
     End
 
     It throws an exception when a given promise has rejected
-      let p = P.resolve(RejectAfter(30).catch({ -> P.reject('rejected') }))
+      let p = Wait(30).then({ -> P.reject('rejected') })
       let s = reltime()
       Assert Equals(p._state, PENDING)
       Throw /rejected/ P.wait(p)
       Assert Compare(reltimefloat(reltime(s)) * 1000, '>=', 30)
       Assert Compare(reltimefloat(reltime(s)) * 1000, '<=', 1000)
 
-      let p = P.resolve(RejectAfter(30).catch({ -> P.reject({ 'exception': 'rejected' }) }))
+      let p = Wait(30).then({ -> P.reject({ 'exception': 'rejected' }) })
       Throw /rejected/ P.wait(p)
 
-      let p = P.resolve(RejectAfter(30).catch({ -> P.reject({ 'foo': 'bar' }) }))
+      let p = Wait(30).then({ -> P.reject({ 'foo': 'bar' }) })
       Throw /{'foo': 'bar'}/ P.wait(p)
     End
 
     It waits until a given timeout and throws Async.Promise.TimeoutError
-      let p = P.resolve(Wait(1000).then({ -> 'resolved' }))
+      let p = Wait(1000).then({ -> 'resolved' })
       let s = reltime()
       Assert Equals(p._state, PENDING)
       Throw /vital: Async\.Promise: Timeout/ P.wait(p, { 'timeout': 30 })
@@ -753,7 +753,7 @@ Describe Async.Promise
     End
 
     It waits until a given timeout and throws Async.Promise.TimeoutError (type 2)
-      let p = P.resolve(Wait(1000).then({ -> 'resolved' }))
+      let p = Wait(1000).then({ -> 'resolved' })
       let s = reltime()
       Assert Equals(p._state, PENDING)
       Throw /vital: Async\.Promise: Timeout/ P.wait(p, 30)
