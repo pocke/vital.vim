@@ -751,6 +751,15 @@ Describe Async.Promise
       Assert Compare(reltimefloat(reltime(s)) * 1000, '>=', 30)
       Assert Compare(reltimefloat(reltime(s)) * 1000, '<=', 1000)
     End
+
+    It waits until a given timeout and throws Async.Promise.TimeoutError (type 2)
+      let p = P.resolve(Wait(1000).then({ -> 'resolved' }))
+      let s = reltime()
+      Assert Equals(p._state, PENDING)
+      Throw /vital: Async\.Promise: Timeout/ P.wait(p, 30)
+      Assert Compare(reltimefloat(reltime(s)) * 1000, '>=', 30)
+      Assert Compare(reltimefloat(reltime(s)) * 1000, '<=', 1000)
+    End
   End
 End
 

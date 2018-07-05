@@ -364,6 +364,12 @@ wait({promise}[, {options}])		*Vital.Async.Promise.wait()*
 	  echoerr v:exception
 	endtry
 <
+	For convenience, users can directly specify the "timeout" in the
+	second argument like
+>
+	echo Promise.wait(p, 1000)
+	" Is equivalent to echo Promise.wait(p, {'timeout': 1000})
+>
 
 is_promise({value})			*Vital.Async.Promise.is_promise()*
 

@@ -239,13 +239,14 @@ function! s:is_promise(maybe_promise) abort
 endfunction
 
 function! s:wait(promise, ...) abort
-  let options = extend({
-        \ 'timeout': v:null,
-        \ 'interval': 30,
-        \}, a:0 ? a:1 : {}
-        \)
-  let t = options.timeout
-  let i = options.interval . 'm'
+  if a:0 && type(a:1) is# v:t_number
+    let t = a:1
+    let i = '30m'
+  else
+    let o = a:0 ? a:1 : {}
+    let t = get(o, 'timeout', v:null)
+    let i = get(o, 'interval', 30) . 'm'
+  endif
   let s = reltime()
   while a:promise._state is# s:PENDING
     if (t isnot# v:null && reltimefloat(reltime(s)) * 1000 > t)
